@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.alert {
+    padding: 10px;
+    border: 1px solid #3c763d;
+    background-color: #dff0d8;
+    color: #3c763d;
+}
+
+    .err {
+        color: rgb(225, 22, 22);
+        font-size: small;
+    }
