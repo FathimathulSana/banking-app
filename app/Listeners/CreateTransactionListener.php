@@ -17,6 +17,7 @@ class CreateTransactionListener
         $transaction->amount=$event->amount;
         $transaction->transaction_type=$event->type;
         $transaction->details=$event->details;
+        $transaction->balance=$event->balance;
         $transaction->save();
     }
 }

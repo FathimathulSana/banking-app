@@ -17,6 +17,7 @@ return new class extends Migration
             $table->decimal('amount',10,2);
             $table->string('transaction_type');
             $table->string('details');
+            $table->decimal('balance',10,2);
             $table->timestamps();
         });
     }

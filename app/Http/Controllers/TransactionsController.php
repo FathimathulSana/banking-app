@@ -27,7 +27,7 @@ class TransactionsController extends Controller
             }
             $wallet->balance += $req->amount;
             $wallet->save();
-            event(new TransactionEvent($wallet, $req->amount, 'Credit', 'Deposit'));
+            event(new TransactionEvent($wallet, $req->amount, 'Credit', 'Deposit',$wallet->balance));
             return redirect('/home')->with('success', 'Amount deposited successfully');
         } else {
             return Redirect::back()->with('error', 'Account not found!');
@@ -46,7 +46,7 @@ class TransactionsController extends Controller
             }
             $wallet->balance -= $req->amount;
             $wallet->save();
-            event(new TransactionEvent($wallet, $req->amount, 'Debit', 'Withdraw'));
+            event(new TransactionEvent($wallet, $req->amount, 'Debit', 'Withdraw',$wallet->balance));
             return redirect('/home')->with('success', 'Amount Withdrawed successfully');
         } else {
             return Redirect::back()->with('error', 'Account not found!');
@@ -71,11 +71,11 @@ class TransactionsController extends Controller
         try {
             $senderWallet->balance -= $req->amount;
             $senderWallet->save();
-            event(new TransactionEvent($senderWallet, $req->amount, 'Debit', 'Transfer'));
+            event(new TransactionEvent($senderWallet, $req->amount, 'Debit', 'Transfer ro  '.$receiver->email,$senderWallet->balance));
 
             $receiverWallet->balance += $req->amount;
             $receiverWallet->save();
-            event(new TransactionEvent($receiverWallet, $req->amount, 'Credit', 'Transfer'));
+            event(new TransactionEvent($receiverWallet, $req->amount, 'Credit', 'Transfer from '.$sender->email,$receiverWallet->balance));
 
             DB::commit();
             return redirect('/home')->with('success', 'Amount Transferred successfully');
@@ -84,5 +84,13 @@ class TransactionsController extends Controller
             DB::rollBack();
             return redirect()->back()->with('error', 'Transfer failed. Please try again later.');
         }
+    }
+    public function getStatement(){
+         $user=Session::get('user');
+         $userWallet=Wallet::where('user_id',$user->id)->first();
+         $accountStatements=Transaction::where('wallet_id',$userWallet->id)->get();
+         return view('transactions/statement')->with([
+            'statements'=>$accountStatements,
+        ]);
     }
 }

@@ -38,9 +38,7 @@ Route::get('/transfer', function () {
     return view('transactions/transfer');
 });
 Route::post('/transfer',[TransactionsController::class,'transferMoney']);
-Route::get('/statement', function () {
-    return view('transactions/statement');
-});
+Route::get('/statement',[TransactionsController::class,'getStatement']);
 Route::post('/logout',function(){
     Session::forget('user');
     return redirect('/');
