@@ -11,13 +11,6 @@
             @endif
 <form action="" method="post">
     @csrf
-{{-- <div class="mb-6">
-    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-600 mt-2">Email address</label>
-    <input type="email" name="email" value="{{old('email')}}" id="base-input" class="bg-white-50 border border-white-300 text-gray-900 text-sm rounded-lg focus:ring-black-500 focus:border-black-500 block w-full p-2.5 dark:bg-white-700 dark:border-white-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-black-500 dark:focus:border-black-500">
-    @error('email')
-        <span class="err">*{{$message}}</span>
-    @enderror
-</div> --}}
 <div class="mb-6">
     <label for="deposit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-600 mt-2">Amount</label>
     <input type="number" name="amount" id="base-input" class="bg-white-50 border border-white-300 text-gray-900 text-sm rounded-lg focus:ring-black-500 focus:border-black-500 block w-full p-2.5 dark:bg-white-700 dark:border-white-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-black-500 dark:focus:border-black-500">

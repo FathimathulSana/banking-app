@@ -31,5 +31,23 @@ class TransactionsController extends Controller
             return Redirect::back()->with('error','Account not found!');
         }
     }
+    public function withdrawMoney(Request $req){
+        $req->validate([
+            'amount'=>'required|numeric|min:0.01'
+        ]);
+        $userData=Session::get('user');
+        if($userData){
+            $wallet=Wallet::where('user_id',$userData->id)->first();
+            if(!$wallet){
+                return response()->json(['error'=>'Wallet not found'],404);
+            }
+            $wallet->balance-=$req->amount;
+            $wallet->save();
+           event(new TransactionEvent($wallet,$req->amount,'Debit','Withdraw'));
+          return redirect('/home')->with('success','Amount Withdrawed successfully');
+        }else{
+            return Redirect::back()->with('error','Account not found!');
+        }
+    }
   
 }

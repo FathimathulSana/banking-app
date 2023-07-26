@@ -33,6 +33,7 @@ Route::post('/deposit',[TransactionsController::class,'depositMoney']);
 Route::get('/withdraw', function () {
     return view('transactions/withdraw');
 });
+Route::post('/withdraw',[TransactionsController::class,'withdrawMoney']);
 Route::get('/transfer', function () {
     return view('transactions/transfer');
 });
