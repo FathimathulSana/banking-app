@@ -7,47 +7,82 @@ use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
 class TransactionsController extends Controller
 {
     //
-    public function depositMoney(Request $req){
+    public function depositMoney(Request $req)
+    {
         $req->validate([
-            'amount'=>'required|numeric|min:0.01'
+            'amount' => 'required|numeric|min:0.01'
         ]);
-        $userData=Session::get('user');
-        if($userData){
-            $wallet=Wallet::where('user_id',$userData->id)->first();
-            if(!$wallet){
-                return response()->json(['error'=>'Wallet not found'],404);
+        $userData = Session::get('user');
+        if ($userData) {
+            $wallet = Wallet::where('user_id', $userData->id)->first();
+            if (!$wallet) {
+                return response()->json(['error' => 'Wallet not found'], 404);
             }
-            $wallet->balance+=$req->amount;
+            $wallet->balance += $req->amount;
             $wallet->save();
-         event(new TransactionEvent($wallet,$req->amount,'Credit','Deposit'));
-       return redirect('/home')->with('success','Amount deposited successfully');
-        }else{
-            return Redirect::back()->with('error','Account not found!');
+            event(new TransactionEvent($wallet, $req->amount, 'Credit', 'Deposit'));
+            return redirect('/home')->with('success', 'Amount deposited successfully');
+        } else {
+            return Redirect::back()->with('error', 'Account not found!');
         }
     }
-    public function withdrawMoney(Request $req){
+    public function withdrawMoney(Request $req)
+    {
         $req->validate([
-            'amount'=>'required|numeric|min:0.01'
+            'amount' => 'required|numeric|min:0.01'
         ]);
-        $userData=Session::get('user');
-        if($userData){
-            $wallet=Wallet::where('user_id',$userData->id)->first();
-            if(!$wallet){
-                return response()->json(['error'=>'Wallet not found'],404);
+        $userData = Session::get('user');
+        if ($userData) {
+            $wallet = Wallet::where('user_id', $userData->id)->first();
+            if (!$wallet) {
+                return response()->json(['error' => 'Wallet not found'], 404);
             }
-            $wallet->balance-=$req->amount;
+            $wallet->balance -= $req->amount;
             $wallet->save();
-           event(new TransactionEvent($wallet,$req->amount,'Debit','Withdraw'));
-          return redirect('/home')->with('success','Amount Withdrawed successfully');
-        }else{
-            return Redirect::back()->with('error','Account not found!');
+            event(new TransactionEvent($wallet, $req->amount, 'Debit', 'Withdraw'));
+            return redirect('/home')->with('success', 'Amount Withdrawed successfully');
+        } else {
+            return Redirect::back()->with('error', 'Account not found!');
         }
     }
-  
+    public function transferMoney(Request $req)
+    {
+        $req->validate([
+            'receiver_email' => 'required|email|exists:users,email',
+            'amount' => 'required|numeric|min:0.01'
+        ]);
+        $sender = Session::get('user');
+        $senderWallet = Wallet::where('user_id', $sender->id)->first();
+        if ($senderWallet->balance < $req->amount) {
+            return Redirect::back()->with('error', 'Insufficient balance for transfer.');
+        }
+        $receiver = User::where('email', $req->receiver_email)->first();
+        if ($receiver) {
+            $receiverWallet = Wallet::where('user_id', $receiver->id)->first();
+        }
+        DB::beginTransaction();
+        try {
+            $senderWallet->balance -= $req->amount;
+            $senderWallet->save();
+            event(new TransactionEvent($senderWallet, $req->amount, 'Debit', 'Transfer'));
+
+            $receiverWallet->balance += $req->amount;
+            $receiverWallet->save();
+            event(new TransactionEvent($receiverWallet, $req->amount, 'Credit', 'Transfer'));
+
+            DB::commit();
+            return redirect('/home')->with('success', 'Amount Transferred successfully');
+        } catch (\Throwable $err) {
+            //throw $th;
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Transfer failed. Please try again later.');
+        }
+    }
 }
