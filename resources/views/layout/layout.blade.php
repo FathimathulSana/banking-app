@@ -3,7 +3,7 @@
 
 <head>
     @vite('resources/css/app.css')
-    <link rel="stylesheet" href="{{ asset('path/to/your/alert-styles.css') }}">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
     <title>Banking-app</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

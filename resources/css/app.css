@@ -16,3 +16,12 @@
 .text-size{
     font-size: 10px;
 }
+.table-container {
+    display: flex;
+    flex-direction: column;
+}
+.pagination-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px; /* Adjust the margin as needed */
+}

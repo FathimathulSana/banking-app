@@ -88,7 +88,7 @@ class TransactionsController extends Controller
     public function getStatement(){
          $user=Session::get('user');
          $userWallet=Wallet::where('user_id',$user->id)->first();
-         $accountStatements=Transaction::where('wallet_id',$userWallet->id)->get();
+         $accountStatements=Transaction::where('wallet_id',$userWallet->id)->paginate(5);
          return view('transactions/statement')->with([
             'statements'=>$accountStatements,
         ]);

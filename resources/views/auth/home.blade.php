@@ -1,9 +1,7 @@
 @extends('layout.layout')
 @include('layout.header')
 @if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
+@include('components.alert')
 @endif
 <hr>
 <div class="relative overflow-x-auto flex justify-center h-screen">

@@ -2,8 +2,8 @@
 @include('layout.header')
 
 <div class="relative overflow-x-auto flex justify-center h-screen">
-    <div class="w-3/4 h-full bg-slate-100 justify-center flex">
-        <table class="w-1/3 h-1/5 mt-5 text-sm text-left text-gray-500 dark:text-gray-400">
+    <div class="w-3/4 h-full bg-slate-100 place-items-center flex table-container">
+        <table class=" w-1/3 h-1/5 text-sm text-left text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase dark:text-gray-500">
                 <tr>
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-600">
@@ -60,4 +60,9 @@
                 @endif
             </tbody>
         </table>
+        <div class="pagination-container">
+            {{ $statements->links() }}
+        </div>
     </div>
+   
+</div>
