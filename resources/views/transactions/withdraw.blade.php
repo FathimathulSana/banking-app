@@ -4,12 +4,16 @@
 <div class="relative overflow-x-auto flex justify-center h-screen">
     <div class="w-3/4 h-3/4 bg-slate-100 justify-center flex">
         <div class="bg-white w-1/2 h-3/6 mt-5 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-600">
-            Withdraw Money
+           Withdraw Money
             <hr class="mt-2">
 <form action="" method="post">
+{{-- <div class="mb-6">
+    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-600 mt-2">Email address</label>
+    <input type="email" id="base-input" class="bg-white-50 border border-white-300 text-gray-900 text-sm rounded-lg focus:ring-black-500 focus:border-black-500 block w-full p-2.5 dark:bg-white-700 dark:border-white-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-black-500 dark:focus:border-black-500">
+</div> --}}
 <div class="mb-6">
-    <label for="deposit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-600 mt-2">Amount</label>
-    <input type="number" id="base-input" class="bg-white-50 border border-white-300 text-white-900 text-sm rounded-lg focus:ring-black-500 focus:border-black-500 block w-full p-2.5 dark:bg-white-700 dark:border-white-600 dark:placeholder-white-400 dark:text-white dark:focus:ring-black-500 dark:focus:border-black-500">
+    <label for="withdraw" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-600 mt-2">Amount</label>
+    <input type="number" name="amount" id="base-input" class="bg-white-50 border border-white-300 text-gray-900 text-sm rounded-lg focus:ring-black-500 focus:border-black-500 block w-full p-2.5 dark:bg-white-700 dark:border-white-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-black-500 dark:focus:border-black-500">
 </div>
 <div>
     <button type="submit"

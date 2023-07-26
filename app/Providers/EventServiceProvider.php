@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\TransactionEvent;
+use App\Events\UserRegistered;
+use App\Listeners\CreateTransactionListener;
+use App\Listeners\CreateWalletForNewUser;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -17,6 +21,12 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        UserRegistered::class=>[
+            CreateWalletForNewUser::class
+        ],
+        TransactionEvent::class=>[
+            CreateTransactionListener::class
         ],
     ];
 

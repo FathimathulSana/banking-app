@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TransactionsController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,17 +19,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('auth/login');
 });
-Route::post('/login', [AuthController::class, 'login'])->middleware('web');;
+Route::post('/login', [AuthController::class, 'login']);
 Route::get('/signup', function () {
     return view('auth/signup');
 });
 Route::post('/signup', [AuthController::class, 'signup']);
-Route::get('/home', function () {
-    return view('auth/home');
-});
+Route::get('/home', [AuthController::class,'index']);
+
 Route::get('/deposit', function () {
     return view('transactions/deposit');
 });
+Route::post('/deposit',[TransactionsController::class,'depositMoney']);
 Route::get('/withdraw', function () {
     return view('transactions/withdraw');
 });
@@ -37,4 +39,7 @@ Route::get('/transfer', function () {
 Route::get('/statement', function () {
     return view('transactions/statement');
 });
-
+Route::post('/logout',function(){
+    Session::forget('user');
+    return redirect('/');
+});
