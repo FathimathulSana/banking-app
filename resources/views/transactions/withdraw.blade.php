@@ -7,8 +7,8 @@
             Withdraw Money
             <hr class="mt-2">
             @if (session('error'))
-            <span class="err">*{{ session('error') }}</span>
-        @endif
+                <span class="err">*{{ session('error') }}</span>
+            @endif
             <form action="" method="post">
                 @csrf
                 <div class="mb-6">
