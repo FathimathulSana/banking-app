@@ -6,6 +6,9 @@
         <div class="bg-white w-1/2 h-3/6 mt-5 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-600">
             Withdraw Money
             <hr class="mt-2">
+            @if (session('error'))
+            <span class="err">*{{ session('error') }}</span>
+        @endif
             <form action="" method="post">
                 @csrf
                 <div class="mb-6">
