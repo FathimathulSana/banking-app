@@ -9,7 +9,7 @@
             @if (session('error'))
                 <span class="err">*{{ session('error') }}</span>
             @endif
-            <form action="" method="post">
+            <form action="withdraw" method="POST">
                 @csrf
                 <div class="mb-6">
                     <label for="withdraw"
